@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 require('./src/db/config');
 const userRouter = require('./src/routes/userRoutes');
 const noteRouters = require('./src/routes/notesRoutes');
-
+app.use(cors());
 app.use(express.json());
 
 app.use((req, resp, next) => {

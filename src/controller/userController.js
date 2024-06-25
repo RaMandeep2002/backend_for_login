@@ -5,7 +5,9 @@ const SECRET_KEY = 'Raman';
 const signup = async (req, resp) => {
   const { username, email, password } = req.body;
   try {
-    const exstinguser = await userModel.findOne({ email: email });
+    const exstinguser = await userModel.findOne({
+      email: email,
+    });
     console.log('exstinguser ======> ', exstinguser);
     if (exstinguser) {
       return resp.status(400).json({ message: 'user already exist' });
