@@ -13,11 +13,16 @@ const signup = async (req, resp) => {
       return resp.status(400).json({ message: 'user already exist' });
     }
 
-    const hashpass = await bcrypt.hash(password, 10);
+    // const hashpass = await bcrypt.hash(password, 10);
 
+    // const result = await userModel.create({
+    //   email: email,
+    //   password: hashpass,
+    //   username: username,
+    // });
     const result = await userModel.create({
       email: email,
-      password: hashpass,
+      password: password,
       username: username,
     });
 
@@ -43,8 +48,11 @@ const signin = async (req, resp) => {
       return resp.status(404).json({ message: 'user not found' });
     }
 
-    const matchpassword = await bcrypt.compare(password, exstinguser.password);
-    if (!matchpassword) {
+    // const matchpassword = await bcrypt.compare(password, exstinguser.password);
+    // if (!matchpassword) {
+    //   return resp.status(400).json({ message: 'Invaild credentail' });
+    // }
+    if (!password) {
       return resp.status(400).json({ message: 'Invaild credentail' });
     }
 
@@ -52,7 +60,7 @@ const signin = async (req, resp) => {
       { email: exstinguser.email, id: exstinguser._id },
       SECRET_KEY
     );
-    resp.status(201).json({ user: exstinguser, token: token });
+    resp.status(201).json({ exstinguser: exstinguser, token: token });
   } catch (error) {
     console.log(error);
     resp.status(500).json({ message: 'Something happen on Server' });
