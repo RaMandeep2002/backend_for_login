@@ -8,12 +8,12 @@ const {
 const auth = require('../middlewares/auth');
 const noteRouters = express.Router();
 
-noteRouters.get('/', auth, getsNotes);
+noteRouters.get('/getsNotes', auth, getsNotes);
 
 noteRouters.post('/createNotes', auth, createNotes);
 
-noteRouters.delete('/:id', auth, deleteNotes);
+noteRouters.delete('/deleteNotes/:id', auth, deleteNotes);
 
-noteRouters.put('/:id', auth, updateNotes);
+noteRouters.put('/updateNotes/:id', auth, updateNotes);
 
 module.exports = noteRouters;

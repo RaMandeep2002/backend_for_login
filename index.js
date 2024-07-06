@@ -4,6 +4,8 @@ const cors = require('cors');
 require('./src/db/config');
 const userRouter = require('./src/routes/userRoutes');
 const noteRouters = require('./src/routes/notesRoutes');
+const otpRouter = require('./src/routes/optRoutes');
+
 app.use(cors());
 app.use(express.json());
 
@@ -13,6 +15,7 @@ app.use((req, resp, next) => {
 });
 app.use('/user', userRouter);
 app.use('/note', noteRouters);
+app.use('/auth', otpRouter);
 
 app.get('/', (req, resp) => {
   resp.send('hello world');
