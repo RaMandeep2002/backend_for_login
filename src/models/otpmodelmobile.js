@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const optSchema = mongoose.Schema({
+const optSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
     required: true,
