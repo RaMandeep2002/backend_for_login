@@ -98,6 +98,21 @@ const signin = async (req, resp) => {
   }
 };
 
+const forgetPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await userModel.findOne({ email: email });
+
+    if(!user){
+      return resp.status(404).json({ message: 'user not found' });
+    }
+
+    
+  } catch (error) {
+    console.log('Error =====> ', error.message);
+  }
+};
+
 // const userDetail = async (req, resp) => {
 //   const { username } = req.body;
 //   console.log('username ===> ', username);

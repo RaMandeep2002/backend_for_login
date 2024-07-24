@@ -2,32 +2,32 @@ const otpGenerator = require('otp-generator');
 const OTP = require('../models/otpmodels');
 const users = require('../models/users');
 
-// const sendOtp = async (req, res) => {
-//   try {
-//     const { email, otp } = req.body;
-//     console.log('email ==> ', email);
-//     const checkpoint = await users.findOne({ email: email });
+const verifyotp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    console.log('email ==> ', email);
+    const checkpoint = await users.findOne({ email: email });
 
-//     if (!checkpoint) {
-//       return res.status(401).json({
-//         success: false,
-//         message: 'User is already registered',
-//       });
-//     }
+    if (!checkpoint) {
+      return res.status(401).json({
+        success: false,
+        message: 'User is already registered',
+      });
+    }
 
-//     const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
-//     if (response.length === 0 || otp !== response[0].otp) {
-//       return res.status(400).json({
-//         success: false,
-//         message: 'The OTP is not valid',
-//       });
-//     }
-//     res.status(201).json({ message: 'Successfull!!' });
-//   } catch (error) {
-//     console.log(error.message);
-//     return res.status(500).json({ success: false, error: error.message });
-//   }
-// };
+    const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
+    if (response.length === 0 || otp !== response[0].otp) {
+      return res.status(400).json({
+        success: false,
+        message: 'The OTP is not valid',
+      });
+    }
+    res.status(201).json({ status: '1', message: 'Successfull!!' });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
 
 const resendOtp = async (req, res) => {
   const { email } = req.body;
@@ -55,7 +55,8 @@ const resendOtp = async (req, res) => {
       });
       resultotp = await OTP.findOne({ otp: otp });
     }
-
+    const otpPayload = { email, otp };
+    await OTP.create(otpPayload);
     await OTP.updateOne({ email: email }, { otp: otp }, { upsert: true });
     return res.status(200).json({
       message: 'OTP resent successfully',
@@ -67,5 +68,5 @@ const resendOtp = async (req, res) => {
   }
 };
 
-module.exports = { resendOtp };
+module.exports = { verifyotp, resendOtp };
 // module.exports = { sendOtp, resendOtp };
